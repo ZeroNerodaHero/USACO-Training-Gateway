@@ -1,5 +1,5 @@
 /*
-ID: NomNom isHere
+ID: NomNom
 PROG: gift1
 LANG: C++
 */

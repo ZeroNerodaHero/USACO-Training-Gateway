@@ -1,5 +1,5 @@
 /*
-ID: NomNom isHere
+ID: NomNom
 PROG: friday
 LANG: C++
 */
@@ -32,17 +32,14 @@ int main(){
     for(int i = 0; i < year; i++){
         bool leap = ((1900+i)%4 == 0) && !((1900+i)%100 == 0);
         if(!leap) leap = ((1900+i)%400 == 0);
-        std:cout << 1900+i << " leap: " << leap << std::endl;
+        //std:cout << 1900+i << " leap: " << leap << std::endl;
         for(int j = 0; j < 12; j++){
-            std::cout << prev << '\t';
-            std::cout << "13: " << (prev+12)%7 << '\t';;
             days[(prev+12)%7]++;
+            prev += month[j];
             if(leap && j == 1)
-                prev = (prev+29)%7;
-            else
-                std::cout << prev+month[j] << '\t';
-                prev = (prev+month[j])%7;
-            print(days);
+                prev++;
+            prev %= 7;
+            //print(days);
         }
     }
     for(int i = 0; i < 6; i++){
