@@ -64,21 +64,30 @@ int main(){
             in >> b[i][j];
         }
     }
-    for(int i = 1; i < 5; i++){
+    for(int i = 1; i < 4; i++){
         rot();
         if(isequal()){
             out << i << '\n';
             return 0;
         }
     } 
-    int tran = 7;
-    if(isequal()) tran = 6;
+    rot();
+    if(isequal()){
+        out << 6 << endl;
+        return 0;
+    }
     reflect();
-    if(isequal()) tran = min(4,tran);
+    if(isequal()){
+        out << 4 << endl;
+        return 0;
+    }
     for(int i = 0; i < 3; i++){
         rot();
-        if(isequal()) tran = min(5,tran);
+        if(isequal()){
+            out << 5 << endl;
+            return 0;
+        }
     }   
-    out << tran << '\n';
+    out << 7  << '\n';
     return 0;
 }
