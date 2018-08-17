@@ -8,6 +8,8 @@ LANG: C++
 #include <fstream>
 using namespace std;
 
+#define done(x) do{out << x << endl; return 0;}while(0)
+
 int N;
 char a[10][10], b[10][10], tmp[10][10];;
 
@@ -66,28 +68,15 @@ int main(){
     }
     for(int i = 1; i < 4; i++){
         rot();
-        if(isequal()){
-            out << i << '\n';
-            return 0;
-        }
+        if(isequal()) done(i);
     } 
     rot();
-    if(isequal()){
-        out << 6 << endl;
-        return 0;
-    }
+    if(isequal()) done(6);
     reflect();
-    if(isequal()){
-        out << 4 << endl;
-        return 0;
-    }
+    if(isequal()) done(4);
     for(int i = 0; i < 3; i++){
         rot();
-        if(isequal()){
-            out << 5 << endl;
-            return 0;
-        }
+        if(isequal()) done(5);
     }   
-    out << 7  << '\n';
-    return 0;
+    done(7);
 }

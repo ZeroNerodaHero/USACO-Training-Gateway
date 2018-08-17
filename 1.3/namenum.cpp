@@ -31,10 +31,11 @@ int main(){
    
     bool isempty = true;;
      
-    for(int i = 0; i < 4617; i++){
+    while(!fin.eof()){
+    //for(int i = 0; i < 4617; i++){
         std::string name;
         fin >> name;
-        if(name.size() == len){
+        if(name.size() == len && !fin.fail()){
             for(int j = 0; j < len; j++){
                 if(letter[name[j]] != number[j])
                     break;
