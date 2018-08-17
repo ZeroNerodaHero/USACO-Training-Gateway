@@ -32,18 +32,15 @@ int main(){
     bool isempty = true;;
      
     while(!fin.eof()){
-    //for(int i = 0; i < 4617; i++){
         std::string name;
         fin >> name;
         if(name.size() == len && !fin.fail()){
-            for(int j = 0; j < len; j++){
-                if(letter[name[j]] != number[j])
-                    break;
-                if(j == len-1){
-                    out << name << '\n';
-                    isempty = false;
-                }                 
-            }
+            int j = 0;
+            while(j < len && letter[name[j]] == number[j]) j++;
+            if(j == len){
+                out << name << '\n';
+                isempty = false;
+            }                 
         }
     }
     if(isempty) out << "NONE" << '\n';   

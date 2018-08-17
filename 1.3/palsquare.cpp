@@ -11,11 +11,10 @@ using namespace std;
 bool ispal(string s){
     int i = 0,j = s.size();
     j--;
-    while(s[i] == s[j]){
-        if(i == j || i == j-1) return true;
+    while(i < j && s[i] == s[j]){
         i++; j--;
     }
-    return false;;
+    return i >= j;
 }
 
 string convert(int isquare, int base){
