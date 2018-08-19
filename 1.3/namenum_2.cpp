@@ -69,40 +69,12 @@ int main(){
             sol[n.loc-1] = n.ch;
         }
 
-        switch(number[n.loc]){
-      case '2':st.push(name('C',n.loc+1,n.low,n.high));
-               st.push(name('B',n.loc+1,n.low,n.high));
-               st.push(name('A',n.loc+1,n.low,n.high));
-               break; 
-      case '3':st.push(name('F',n.loc+1,n.low,n.high));
-               st.push(name('E',n.loc+1,n.low,n.high));
-               st.push(name('D',n.loc+1,n.low,n.high));
-               break; 
-      case '4':st.push(name('I',n.loc+1,n.low,n.high));
-               st.push(name('H',n.loc+1,n.low,n.high));
-               st.push(name('G',n.loc+1,n.low,n.high));
-               break; 
-      case '5':st.push(name('L',n.loc+1,n.low,n.high));
-               st.push(name('K',n.loc+1,n.low,n.high));
-               st.push(name('J',n.loc+1,n.low,n.high));
-               break; 
-      case '6':st.push(name('O',n.loc+1,n.low,n.high));
-               st.push(name('N',n.loc+1,n.low,n.high));
-               st.push(name('M',n.loc+1,n.low,n.high));
-               break; 
-      case '7':st.push(name('S',n.loc+1,n.low,n.high));
-               st.push(name('P',n.loc+1,n.low,n.high));
-               st.push(name('R',n.loc+1,n.low,n.high));
-               break; 
-      case '8':st.push(name('V',n.loc+1,n.low,n.high));
-               st.push(name('U',n.loc+1,n.low,n.high));
-               st.push(name('T',n.loc+1,n.low,n.high));
-               break; 
-      case '9':st.push(name('Y',n.loc+1,n.low,n.high));
-               st.push(name('X',n.loc+1,n.low,n.high));
-               st.push(name('W',n.loc+1,n.low,n.high));
-               break;
-   }
+        string key[] = {"CBA","FED","IHG","LKJ","ONM","SPR","VUT","YXW"};
+        string &s = key[number[n.loc] - '2'];
+        
+        for(int l = 0; l < s.size(); l++){
+            st.push(name(s[l],n.loc+1,n.low,n.high));
+        }
     }
 
     if(nsol) out << "NONE\n";

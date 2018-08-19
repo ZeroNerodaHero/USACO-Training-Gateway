@@ -75,10 +75,7 @@ int main(){
     else if(a.rot() == b) t = 2;
     else if(a.rot() == b) t = 3;
     else if(a.rot().reflect() == b) t = 4;
-    else if(a.rot() == b) t = 5;
-    else if(a.rot() == b) t = 5;
-    else if(a.rot() == b) t = 5;
-
+    else if(a.rot() == b || a.rot() == b || a.rot() == b) t = 5;
     else if(a.rot().reflect() == b)t = 6;
     out << t << endl;
     return 0;    
