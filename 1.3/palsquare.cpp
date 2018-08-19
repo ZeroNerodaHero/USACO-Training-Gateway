@@ -1,4 +1,20 @@
-/*
+tring s){
+    int i = 0,j = s.size();
+    j--;
+    while(i < j && s[i] == s[j]){
+        i++; j--;
+    }
+    return i >= j;
+}
+
+string convert(int isquare, int base){
+    string nums = "0123456789ABCDEFGHIJ";
+    string digits;
+    while(isquare != 0){
+        digits.insert(digits.begin(),nums[isquare%base]);
+        isquare /= base;
+    }
+    ret*
 ID: NomNom
 PROG: palsquare
 LANG: C++
