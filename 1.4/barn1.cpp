@@ -19,22 +19,21 @@ int main(){
     std::priority_queue<int> gap; 
     int stall[C];
     for(int i = 0; i < C; i++){
-        int tmp;
-        in >> tmp;
-        stall[i] = tmp;
+        in >> stall[i];
     }
     std::sort(stall,stall+C);
     for(int i = 1; i < C; i++){
-        gap.push(stall[i]-stall[i-1]-1); 
+        int diff = stall[i]-stall[i-1]-1;
+        if(diff){
+            gap.push(diff);
+        }
     }
 
-    S -= S-stall[C-1];
+    S = stall[C-1];
     S -= stall[0]-1;
-        std::cout << S << endl;
     while(M != 1 && !gap.empty()){
         int tmp = gap.top();
         gap.pop();
-        std::cout << tmp << endl;
         S -= tmp;
         M--;
     }
