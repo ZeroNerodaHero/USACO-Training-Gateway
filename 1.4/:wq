@@ -1,0 +1,23 @@
+/*
+ID: NomNom
+PROG: milk
+LANG: C++
+*/
+#include <iostream>
+#include <queue>
+#include <fstream>
+#include <functional>
+using namespace std;
+
+int main(){
+    std::ifstream in("milk.in");
+    std::ofstream out("milk.out");
+
+    int M,S,C;
+    in >> M >> S >> C;
+    std::priority_que<int,vector,less<int> > 
+    if(M == 1){
+        
+
+    }
+}
