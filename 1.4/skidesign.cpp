@@ -1,29 +1,32 @@
 /*
 ID: NomNom
-PROG: milk
+PROG: skidesign
 LANG: C++
 */
 #include <iostream>
-#include <map>
 #include <fstream>
 using namespace std;
 
 int main(){
-    std::ifstream in("milk.in");
-    std::ofstream out("milk.out");
+    std::ifstream in("skidesign.in");
+    std::ofstream out("skidesign.out");
+
     int N;
     in >> N;
-
-    int ar[N]
+    int height[N];
     for(int i = 0; i < N; i++){
-        in >> ar[i];
+        in >> height[i];
+    } 
+    int count = 999999;
+    for(int r = 17,l=0; r < 101; r++,l++){
+        int tmp = 0;
+        for(int n = 0; n < N; n++){
+            if(height[n] < l) tmp += (l-height[n])*(l-height[n]);
+            if(height[n] > r) tmp += (height[n]-r)*(height[n]-r);
+        }
+        count = min(count,tmp);
     }
-    sort(ar,ar+N);
-    int diff = ar[N-1]-ar[0]
-    while(diff > 17){
-        int pay = diff - 17;
-        int total = (pay/2) + (pay-(pay/2)) * (pay-(pay/2));
-    }
-    
+
+    out << count << '\n';
     return 0;   
 }
