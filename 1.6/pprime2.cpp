@@ -7,6 +7,7 @@ LANG: C++11
 #include <math.h>
 #include <queue>
 #include <fstream>
+#include <bprof.h>
     std::ifstream in("pprime.in");
     std::ofstream out("pprime.out");
 using namespace std;
@@ -51,6 +52,7 @@ void bfs(int a, int b){
         q.push(bpair(odd[i],3));
     }
     while(!q.empty()){
+        profile_start();
         bpair n = q.front();
         q.pop();
         int half = pal(n.first);
@@ -59,15 +61,16 @@ void bfs(int a, int b){
             for(int i = 0; i < 10; i++){
                 int num = n.first*base[bi]+i*base[bi-1]+half;
                 if(num > b) return;
-                //if(num >= a && isprime(num)) out << num << endl;
+                if(num >= a && isprime(num)) out << num << endl;
                 q.push(bpair(n.first*10+i,n.second+1));
             }
         } else{
             int num = n.first*base[bi]+half;
             if(num > b) return;
-            //if(num >= a && isprime(num)) out << num << endl;
+            if(num >= a && isprime(num)) out << num << endl;
             q.push(bpair(n.first,n.second+1));
-        }   
+        }
+        profile_stop();   
     }
 }
 
