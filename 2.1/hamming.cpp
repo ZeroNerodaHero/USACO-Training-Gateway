@@ -9,6 +9,14 @@ LANG: C++
 using namespace std;
 
 int N,B,D;
+
+void print(int dp[], int size){
+    for(int i = 0; i < size; i++){
+        std::cout << dp[i] << '\n';
+    } std::cout << endl;
+}
+
+namespace ns1{
 int countbit(int i){
     int count = 0;
     while(i != 0){
@@ -17,15 +25,45 @@ int countbit(int i){
     } 
     return count;
 }
+}
 
+namespace ns2{
+int countbit(int i){
+    int count = 0;
+    while(i != 0){
+        count++;
+        i = i & (i-1);
+    }
+    return count;
+}
+}
+
+
+namespace ns3{
+int dp[256];
+void gen(int n){
+    dp[0] = 0;
+    for(int i = 1; i < n; i++){
+        dp[i] = dp[i>>1] + (i&1);
+    }
+    print(dp,256);
+}
+
+inline int countbit(int i){
+    return dp[i];
+}
+}
+namespace my = ns3;
+using namespace my;
 bool isokay(int ar[],int size,int num){
     for(int i = 0; i < size; i++){
-        if(countbit(ar[i]^num) < D) return false;
+        if(my::countbit(ar[i]^num) < D) return false;
     }
     return true;
 }
 
 int main(){
+    gen(256);
     std::ifstream in("hamming.in");
     std::ofstream out("hamming.out");
 
