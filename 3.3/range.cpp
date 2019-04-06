@@ -6,6 +6,7 @@ LANG: C++11
 #include <iostream>
 #include <fstream>
 #include <queue>
+#include <vector>
 #include <list>
 #include <algorithm>
 #include <map>
@@ -15,6 +16,7 @@ std::ifstream in("fence.in");
 std::ofstream out("fence.out");
 
 list<int> g[501];
+vector<int> cir;
 
 void dfs(int s){
     while(!g[s].empty()){
