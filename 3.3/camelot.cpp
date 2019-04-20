@@ -31,6 +31,21 @@ struct point{
     point(int x, int y, int d): x(x),y(y),d(d) {}
 };
 vector<point> p;
+
+void print()
+{
+    for (int i = 0; i<R; ++i) {
+        for (int j =0; j<C; ++j) {
+        cout << "start: "<< i << ' ' << j << endl;
+            for (int x = 0; x<R; ++x) {
+                for (int y =0; y<C; ++y) {
+                    cout << dist[i][j][x][y] << ' ';
+                }cout << endl;
+            }
+        }
+    }
+}
+
 void shortest(int x, int y){
     bool visited[R][C];
     memset(visited,0,sizeof(visited));
@@ -65,6 +80,7 @@ void solve(){
             for(int k = 0; k < size; k++){
                 sm += dist[Nx[k].first][Nx[k].second][i][j];
             }   
+//cout << "sm " << sm << " x/y:" << i << ", " << j <<endl;
             int smd = 0x1FFFF;
             for(int k = 0; k < p.size(); k++){
                 int sd = 0;
@@ -80,17 +96,20 @@ void solve(){
                 if(smd == 0) break;
             }
             sm += smd;
+//cout << "smd " << smd<< endl;
             ans = min(ans,sm);
         }
     }
 }
 
 void find(){
+    memset(dist, 1, sizeof(dist));
     for(int i = 0; i < R; i++){
         for(int j = 0; j < C; j++){
             shortest(i,j);
         }
     }
+    //print();
     bool visited[R][C];
     memset(visited,0,sizeof(visited));
     queue<point> q;
@@ -121,9 +140,9 @@ void find(){
 int main(){
     in >> R >> C;
     char kc;
-    in >> kc >> Ky;
-    Kx = kc-'A';
-    Ky--;
+    in >> kc >> Kx;
+    Ky = kc-'A';
+    Kx--;
 
     while(true){
         char a;
@@ -133,10 +152,10 @@ int main(){
         if(in.eof()){
             break;
         }
-        Nx[size].first = a-'A';
-        Nx[size++].second = b-1;
+        Nx[size].first = b-1;
+        Nx[size++].second = a-'A';
     }
-    cout << size << endl;
+    //cout << size << endl;
     find();
     solve();
     out << ans << endl;
