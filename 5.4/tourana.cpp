@@ -17,8 +17,20 @@ int N, V;
 unordered_map<string,int> m;
 list<int> g[105];
 bool visited[100];
+int dp[101][101];
+
+void print(){
+    for(int i = 0; i <= N; i++){
+        for(int j = 0; j <= N; j++){
+            cout.width(5);
+            cout << dp[i][j];
+        }
+        cout << endl;
+    }   
+}
 
 int dfs(int c1, int c2){
+    dp[c1][c2]++;
     //cout << "c1 " << c1 <<  "\tc2 " << c2 << endl;  
     if(c1 == N && c2 == N){
         return 0;
@@ -64,5 +76,6 @@ int main(){
     
     int ans = dfs(0,0);
     ans = max(ans,1);
+    print();
     out << ans<< endl;
 }
