@@ -8,6 +8,7 @@ LANG: C++11
 #include <algorithm>
 #include <vector>
 #include <cstring>
+#include <climits>
 #include <unordered_map>
 #include <iomanip>
 #include <cmath>
@@ -23,30 +24,44 @@ struct pt{
     }
 };
 int N;
-pt p[201];
+pt p[205];
+int dp[2][205][205];
 
-int dist(int x, int y, int k){
-    return abs(x-p[k].x)+abs(y)+abs(p[k].y);;
+int dist(int a, int b){
+    return abs(p[a].x-p[b].x)+abs(p[a].y)+abs(p[b].y);
 }
 
-int dfs(int x,int y, int i, int j){
-//    cout << i << ' ' << j << endl;
-    if(i > j) return 0;
-    int res = dist(x,y,j)+dfs(p[j].x,p[j].y,i,j-1);
-    for(int k = i; k < j; k++){
-        int r = dist(x,y,k)+max(dfs(p[k].x,p[k].y,i,k-1),dfs(p[k].x,p[k].y,k+1,j));
-        res = min(res,r);
+void dfs(){
+    for(int i = 0; i < N; i++){
+        dp[0][i][i+1] = dp[1][i][i+1] = dist(i,i+1);
     }
-    return res;
+    for(int l = 2; l <= N; l++){
+        for(int i = 0; i + l <= N; i++){
+            int j = i+l;
+            dp[0][i][j] = INT_MAX;
+            for(int k = i+1; k <= j; k++){
+                int big = max(dp[1][i+1][k], dp[0][k][j]);
+                big += dist(i,k);
+                dp[0][i][j] = min(dp[0][i][j],big);
+            }
+            dp[1][i][j] = INT_MAX;
+            for(int k = i; k < j; k++){
+                int big = max(dp[1][i][k],dp[0][k][j-1]) + dist(j,k);
+                dp[1][i][j] = min(dp[1][i][j],big);
+            }
+        } 
+    }
 }
 
 int main(){
     in >> N;
-    for(int i = 0; i < N; i++){
+    for(int i = 1; i <= N; i++){
         in >> p[i].x >> p[i].y;
     }
-    sort(p,p+N);
+    p[0].x = 0;
+    p[0].y = 0;
+    sort(p+1,p+N+1);
+    dfs();
 
-    int ans = dfs(0,0,0,N-1);
-    out << ans << endl;
+    out << dp[0][0][N] << endl;
 }
