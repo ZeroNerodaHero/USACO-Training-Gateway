@@ -12,7 +12,7 @@ LANG: C++11
 #include <unordered_map>
 #include <iomanip>
 #include <cmath>
-#define INF 9999
+#define INF 160000
 std::ifstream in("leap2.in");
 std::ofstream out("leap2.out");
 using namespace std;
@@ -22,19 +22,13 @@ int dx[] = {-2, -2, -1, -1, 1,  1,  2, 2};
 int dy[] = {-1,  1,  2, -2, 2, -2, -1, 1};
 bool v[368][368];
 int p[1000];
-int ans[1000], len;
+int dp[368][368], len;
 
-bool cmp(){
-    for(int i = 0; i <= len; i++){
-        if(p[i] < ans[i]) return true;
-        if(p[i] > ans[i]) return false;
-    }
-    return false;
-}
-
-void dfs(int i, int j, int d){
+int dfs(int i, int j){
+    if(dp[i][j] > 0) return dp[i][j];
     v[i][j] = true;
-    p[d] = ar[i][j];
+    //p[d] = ar[i][j];
+    int ans = 0;
     for(int k = 0; k < 8; k++){
         int nx = i + dx[k];
         int ny = j + dy[k];
@@ -43,17 +37,12 @@ void dfs(int i, int j, int d){
         }
 
         if(ar[nx][ny] > ar[i][j]){
-            dfs(nx,ny,d+1);
+            ans = max(ans,dfs(nx,ny));
         }
-    }
-
-    if(d > len || (d == len && cmp())){
-        for(int i = 0; i <= d; i++){
-            ans[i] = p[i];
-        }
-        len = d;
     }
     v[i][j] = false;
+    dp[i][j] = ans+1;
+    return ans+1;
 }
 
 int main(){
@@ -63,14 +52,36 @@ int main(){
             in >> ar[i][j];
         }
     }
+    int x, y;
+    int ans = 0;
     for(int i = 1; i <= N; i++){
         for(int j = 1; j <= N; j++){
-            dfs(i,j,0);
+            int l = dfs(i,j);
+            if(ans < l || (ans == l && ar[i][j] < ar[x][y])){
+                ans = max(ans,l);
+                x = i;
+                y = j;
+            }
         }
     }
-    len++;
-    cout << len << endl;
-    for(int i = 0; i < len; i++){
-        cout << ans[i] << endl;
+    out << ans << endl;
+    for(int i = ans; i > 0; i--){
+        out << ar[x][y] << endl;
+        int best = INF;
+        int nnx,nny;
+        for(int j = 0; j < 8; j++){
+            int nx = x + dx[j];
+            int ny = y + dy[j];
+            if(nx > 0 && nx <= N &&
+               ny > 0 && ny <= N &&
+               dp[nx][ny] == i-1 && 
+               ar[nx][ny] < best){
+                nnx = nx;
+                nny = ny;
+                best = ar[nx][ny];
+            } 
+        }
+        x = nnx;
+        y = nny;
     }
 }
