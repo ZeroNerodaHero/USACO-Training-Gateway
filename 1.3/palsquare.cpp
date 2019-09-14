@@ -15,7 +15,7 @@ string convert(int isquare, int base){
         isquare /= base;
     }
     ret*
-ID: NomNom
+ID: billyz43
 PROG: palsquare
 LANG: C++
 */

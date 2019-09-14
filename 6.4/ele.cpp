@@ -1,5 +1,5 @@
 /*
-ID: billy
+ID: billyz43
 PROG: fence3
 LANG: C++11
 */
@@ -128,7 +128,7 @@ int main(){
 }
 
 /*
-USER: Billy Zhang [billyz43]
+USER: Billy Zhang [billyz43z43]
 TASK: fence3
 LANG: C++11
 

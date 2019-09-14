@@ -1,5 +1,5 @@
 /*
-ID: billy
+ID: billyz43
 PROG: spin
 LANG: C++11
 */

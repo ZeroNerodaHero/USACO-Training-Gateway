@@ -1,5 +1,5 @@
 /*
-ID: NomNom
+ID: billyz43
 PROG: crypt1
 LANG: C++
 */
