@@ -20,15 +20,19 @@ using namespace std;
 int B, E, init;
 int ex[101];
 bool used[1<<16];
-int dp[1<<16];
 
 struct str{
     int st, cnt;
     str(int st, int cnt): st(st), cnt(cnt) {};
 };
 
-static inline int countb(int a){
-    return dp[a];
+int countb(int a){
+    int cnt = 0;
+    while(a > 0){
+        cnt++;
+        a = a&(a-1);
+    }
+    return cnt;
 }
 
 int convert(string& s){
@@ -91,14 +95,6 @@ int main(){
     in >> B >> E >> tmp;
     init = convert(tmp);
 
-    dp[0] = 0;
-    dp[1] = 1;
-    for(int i = 1; i < B; i++){
-        for(int j = 1 << i; j < 1 << (i+1); j++){
-            dp[j] = 1 + dp[j ^ (1<< i)];
-        }
-    } 
-    
     for(int i = 0; i < E; i++){
         in >> tmp;
         ex[i] = convert(tmp);
