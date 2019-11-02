@@ -21,88 +21,91 @@ int ar[20][20];
 int dx[8] = {-1,-1,-1, 0,0, 1,1,1};
 int dy[8] = {-1, 0, 1,-1,1,-1,0,1};
 int dp[20][20][20][20][17];
-
-int dfs(int x,int y, int x1, int y1, int cl){
-    if(dp[x][y][x1][y1][cl] > 0) return dp[x][y][x1][y1][cl];
-    if(cl == 0){
-//cout << '\t' << x << ' ' << y << ' ' << x1 << ' ' << y1 << ": " << ar[x][y] << ' ' << ar[x1][y1] << endl;
-        return 1;
-    }
-    //if((cl != L-1) && (x == x1 && y == y1)) return 0;
-//cout << "cur: " << cl << ' ' << x << ' ' << y << ' ' << x1 << ' ' << y1 << endl;
-
-    int ans = 0;
-    cl-=2;
-
-    for(int i = 0; i < 8; i++){
-        int nx = x + dx[i]; 
-        int ny = y + dy[i]; 
-        if(nx < 0 || nx >= N ||
-           ny < 0 || ny >= N){
-            continue;
-        }
-
-        for(int j = 0; j < 8; j++){
-            int nx1 = x1 + dx[j];
-            int ny1 = y1 + dy[j];
-            if(nx1 < 0 || nx1 >= N ||
-               ny1 < 0 || ny1 >= N){
-                continue;
-            }
-
-            if(ar[nx][ny] == ar[nx1][ny1]){
-                ans += dfs(nx,ny,nx1,ny1,cl);
-            }
-        }
-    }
-    dp[x][y][x1][y1][cl] = ans;
-    dp[x1][y1][x][y][cl] = ans;
-    return ans;
-}
-
-void print(){
-    for(int i = 0; i < N; i++){
-        for(int j = 0; j < N; j++){
-            cout <<  ar[i][j] << ' ';
-        }
-        cout << endl;
-    }
-}
+int adjx[20][20][8];
+int adjy[20][20][8];
+int deg[20][20];
 
 int main(){
     in >> N >> L;
     for(int i = 0; i < N; i++){
         for(int j = 0; j < N; j++){
             in >> ar[i][j];
-        }
-    }
-//    print();
-    int ans = 0;
-    if(L&1){
-        for(int i = 0; i < N; i++){
-            for(int j = 0; j < N; j++){
-                memset(dp,0,sizeof(dp));
-                ans += dfs(i,j,i,j,L-1);
-cout << "ans " << ans << endl;
+            for(int k = 0; k < 8; k++){
+                int ni = i + dx[k];
+                int nj = j + dy[k];
+                if(ni >= 0 && ni < N &&
+                   nj >= 0 && nj < N){
+                        adjx[i][j][deg[i][j]] = ni;
+                        adjy[i][j][deg[i][j]] = nj;
+                        deg[i][j]++;
+                }
+                dp[i][j][i][j][1] = 1;
             }
         }
-    } else{
+    }
+    for(int i = 0; i < N; i++){
+        for(int j = 0; j < N; j++){
+            for(int k = 0; k < deg[i][j]; k++){
+                int &x = adjx[i][j][k];
+                int &y = adjy[i][j][k];
+        
+                if(ar[x][y] == ar[i][j]){
+                    dp[i][j][x][y][2] = 1;
+                }
+            }
+        }
+    }
+    int a = 0, b = 1, c = 2;
+    if(L == 1){
+        c = 1;
+    }
+    for(int l = 3; l <= L; l++){
+        a = (a+1)%3;
+        b = (b+1)%3;
+        c = (c+1)%3;
         for(int i = 0; i < N; i++){
             for(int j = 0; j < N; j++){
-                for(int k = 0; k <8; k++){
-                    int nx = i + dx[k];
-                    int ny = j + dy[k];
-                    if(nx >= 0 && nx < N &&
-                       ny >= 0 && ny < N &&
-                       ar[i][j] == ar[nx][ny]){
-                       memset(dp,0,sizeof(dp));
-                        ans += dfs(i,j,nx,ny,L-2);
-cout << "ans " << ans << endl;
+                for(int x = 0; x < N; x++){
+                    for(int y = 0; y < N; y++){
+                        dp[i][j][x][y][c] = 0;
+                    }   
+                }
+            }
+        }
+        for(int i = 0; i < N; i++){
+            for(int j = 0; j < N; j++){
+                for(int x = 0; x < N; x++){
+                    for(int y = 0; y < N; y++){
+                        if(ar[i][j] != ar[x][y]){
+                            continue;
+                        }
+                        for(int k = 0; k < deg[i][j]; k++){
+                            int &ni = adjx[i][j][k];
+                            int &nj = adjy[i][j][k];
+                            for(int o = 0; o < deg[x][y]; o++){
+                                int &nx = adjx[x][y][o];
+                                int &ny = adjy[x][y][o];
+                                               
+                                dp[i][j][x][y][c] += dp[ni][nj][nx][ny][a];
+//cout << '\t' << ni << ' ' << nj << ' '<< nx << ' '<< ny <<' ' << dp[ni][nj][nx][ny][a] << endl;
+                            }
+                        }
+//cout << i << ' ' << j << ' '<< x << ' '<< y <<' ' << dp[i][j][x][y][c] << endl;
                     }
                 }
             }
         }
-
+    }
+    long long ans = 0;
+    for(int i = 0; i < N; i++){
+        for(int j = 0; j < N; j++){
+            for(int x = 0; x < N; x++){
+                for(int y = 0; y < N; y++){
+                    ans += dp[i][j][x][y][c];
+//cout << "\tans " <<  ans << endl;
+                }
+            }
+        }
     }
     out << ans << endl;
 }
