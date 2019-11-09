@@ -24,21 +24,25 @@ struct node{
 
 int N, M,K;
 list<node> g[5001];
-unsigned int dp[5001][601];
+unsigned int dp[5001][2];
 
 int dfs(){
-    for(auto i: g[N]){
+    for(auto i: g[1]){
         dp[i.b][1] = i.t;
     }
-
+    int a = 0, b = 1;
     for(int k = 2; k <= K; k++){
+        swap(a,b);
         for(int i = 1; i <= N; i++){
+            dp[i][b] = INF;
             for(auto j: g[i]){
-                dp[i][k] = min(dp[i][k],dp[j.b][k-1] + j.t);
+                if(dp[j.b][a] != INF){
+                    dp[i][b] = min(dp[i][b],dp[j.b][a] + j.t);
+                }
             }   
         }
     }
-    return dp[1][K];
+    return dp[N][b];
 }
 
 int main(){

@@ -104,7 +104,7 @@ int main(){
         cst.own[0] = (cnt)/2;
         
         st ans = dfs(cst,0);
-cout << "result "; ans.print();
+//cout << "result "; ans.print();
         if(ans.own[0] == ans.own[1]){
             out << 0 << endl;
         } else if(ans.own[0] > ans.own[1]){

@@ -12,7 +12,7 @@ LANG: C++11
 #include <unordered_map>
 #include <list>
 #include <cmath>
-#define INF 0x3F3F
+#define INF 0x3F3F3F3F
 std::ifstream in("path.in");
 std::ofstream out("path.out");
 using namespace std;
@@ -24,24 +24,21 @@ struct node{
 
 int N, M,K;
 list<node> g[5001];
-unsigned short dp[5001][601];
+unsigned int dp[5001][601];
 
-int dfs(int c, int t){
-    if(dp[c][t] != INF){
-        return dp[c][t];
-    } 
+int dfs(){
+    for(auto i: g[N]){
+        dp[i.b][1] = i.t;
+    }
 
-    if(t == K){
-        if(c == N) return 0;
-        return INF;
+    for(int k = 2; k <= K; k++){
+        for(int i = 1; i <= N; i++){
+            for(auto j: g[i]){
+                dp[i][k] = min(dp[i][k],dp[j.b][k-1] + j.t);
+            }   
+        }
     }
-     
-    int ret = INF;
-    for(auto i: g[c]){
-        ret = min(ret,dfs(i.b,t+1)+i.t);
-    }
-    dp[c][t] = ret;
-    return ret;
+    return dp[1][K];
 }
 
 int main(){
@@ -54,7 +51,7 @@ int main(){
     }
     memset(dp,0x3F,sizeof(dp));
 
-    int ans = dfs(1,0);
+    int ans = dfs();
 //cout << ans << ' ' << dp[1][0] << endl;
     out << ans << endl;
 }
