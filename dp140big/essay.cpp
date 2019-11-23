@@ -40,22 +40,14 @@ short dfs(){
     short ans = 0;
     for(int i = 1; i <= S; i++){
         for(int j = 0; j <= Q; j++){
+            if(dp[i-1][j] < 0) continue;
+            int ww = j - q[i-1];
+            if(ww < 0) ww = 0;
+            dp[i][ww] = max(dp[i][ww],dp[i-1][j]);
 
-            int ww = j + q[i-1];
-            if(ww > Q){
-                ww = Q;
-                dp[i][j] = max(dp[i][j],dp[i-1][Q]);
-#if 0 
-                for(int k =j; k <= Q; k++){
-                    dp[i][j] = max(dp[i][j],dp[i-1][k]);
-                }
-#endif
-            } else{      
-                dp[i][j] = max(dp[i][j],dp[i-1][ww]);
-            }
-            int qq = j - w[i-1];
-            if(qq >= 0){
-                dp[i][j] = max(dp[i][j]+0,dp[i-1][qq]+1);
+            int qq = j + w[i-1];
+            if(qq <= Q){
+                dp[i][qq] = max(dp[i][qq]+0,dp[i-1][j]+1);
             }
         } 
     }
