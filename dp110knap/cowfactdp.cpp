@@ -32,7 +32,6 @@ int dfs(){
         swap(a,b);
     }
 
-#if 0
     int sc = INF;
     for(int i = 1; i <= R; i++){
 //        cout << i << " " << dp[N][i] << endl;;
@@ -40,9 +39,6 @@ int dfs(){
         int as = (i*10000/dp[a][i]);
         sc = min(as,sc);
     }
-#else
-    int sc = (R*10000/dp[a][R]);
-#endif
     int ans = M * 10000 - sc; 
     ans/=10;    
     return max(ans,-1);
