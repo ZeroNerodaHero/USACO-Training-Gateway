@@ -27,34 +27,30 @@ struct bale{
 int N,B;
 int h[250];
 bale b[251];
-int dp[2][250][250];
+int dp[100][250][250];
 
 int dfs(){
-    //int a = 0, c = 1;
     int a = 0, c = 0;
     for(int i = 1; i <= N; i++){
-//        memset(dp[c],0,sizeof(dp[c]));
-        //for(int l = 0; l < B; l++){
-        for(int l = B-1; l >=0; l--){
-            for(int r = 0,ep=l; ep < B; r++,ep++){
-                dp[c][r][ep] = dp[a][r][ep];
-                if((l+1) >= b[i].w){
+        for(int l = 0; l<B; l++){
+            for(int r = l; r < B; r++){
+                dp[c][l][r] = dp[a][l][r];
+                if(r-l+1 >= b[i].w){
 //cout << i << ' ' << endl;
-                    for(int e = r,f=r+b[i].w-1; f <= ep; e++,f++){
+                    for(int e = l,f=l+b[i].w-1; f <= r; e++,f++){
                         if(h[e] >= b[i].h && h[f] >= b[i].h){
                             int tmp = b[i].a;
-                            if((e-1) >= r) tmp += dp[a][r][e-1];
-                            if((f+1) <= ep) tmp += dp[a][f+1][ep];
-                            dp[c][r][ep] = max(dp[c][r][ep],tmp);
+                            if(e-1 >= l) tmp += dp[a][l][e-1];
+                            if(f+1 <= r) tmp += dp[a][f+1][r];
+                            dp[c][l][r] = max(dp[c][l][r],tmp);
                         }
                     }
                 }
             }
         }
-        //swap(a,c);
+        a++,c++;//swap(a,c);
     }       
     int ans = 0;
-    cout << dp[a][0][B-1] << endl;
     for(int l = 0; l < B; l++){
         for(int r = l; r < B; r++){
             ans = max(ans,dp[a][l][r]);

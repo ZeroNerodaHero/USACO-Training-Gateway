@@ -30,28 +30,35 @@ bale b[251];
 int dp[2][250][250];
 
 int dfs(){
-    //int a = 0, c = 1;
-    int a = 0, c = 0;
+    int a = 0, c = 1;
     for(int i = 1; i <= N; i++){
-//        memset(dp[c],0,sizeof(dp[c]));
-        //for(int l = 0; l < B; l++){
-        for(int l = B-1; l >=0; l--){
-            for(int r = 0,ep=l; ep < B; r++,ep++){
+        for(int l = 0; l < B; l++){
+            for(int r = 0,ep=l+r; ep < B; r++,ep++){
                 dp[c][r][ep] = dp[a][r][ep];
-                if((l+1) >= b[i].w){
+                if(l+1 >= b[i].w){
 //cout << i << ' ' << endl;
                     for(int e = r,f=r+b[i].w-1; f <= ep; e++,f++){
                         if(h[e] >= b[i].h && h[f] >= b[i].h){
                             int tmp = b[i].a;
-                            if((e-1) >= r) tmp += dp[a][r][e-1];
-                            if((f+1) <= ep) tmp += dp[a][f+1][ep];
+                            if(e-1 >= r) tmp += dp[a][r][e-1];
+                            if(f+1 <= ep) tmp += dp[a][f+1][ep];
                             dp[c][r][ep] = max(dp[c][r][ep],tmp);
+                            break;
+                        }
+                    }
+                    for(int f = ep, e = ep-b[i].w+1; e >= r; e--,f--){
+                        if(h[e] >= b[i].h && h[f] >= b[i].h){
+                            int tmp = b[i].a;
+                            if(e-1 >= r) tmp += dp[a][r][e-1];
+                            if(f+1 <= ep) tmp += dp[a][f+1][ep];
+                            dp[c][r][ep] = max(dp[c][r][ep],tmp);
+                            break;
                         }
                     }
                 }
             }
         }
-        //swap(a,c);
+        swap(a,c);
     }       
     int ans = 0;
     cout << dp[a][0][B-1] << endl;
@@ -72,7 +79,7 @@ int main(){
     for(int i = 0; i < B; i++){
         in >> h[i];
     }
-    sort(b,b+N);
+//    sort(b,b+N);
     int ans = dfs();
     out << ans << endl;
 }
