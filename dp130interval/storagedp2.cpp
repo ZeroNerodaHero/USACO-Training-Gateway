@@ -38,22 +38,22 @@ int dfs(){
     int ans = 0;
     for(int i = 1; i <= N; i++){
         memset(dp[y],-1,sizeof(dp[y]));
-        for(int l = 0; l < B; l++){  // it is related to range width. Why?  see storagedp2.cpp
-            for(int r = l; r < B; r++){
+        for(int w = 0; w < B; w++){
+            for(int l = 0, r = w; r < B; l++,r++){
                 if(dp[x][l][r] == -1){
                     continue;
                 }
                 dp[y][l][r] = dp[x][l][r];
-                if((r-l+1)>= b[i].w){
+                if((w+1)>= b[i].w){
                     for(int s=l, e = l + b[i].w-1; e <= r; s++,e++){
                         if(b[i].h <= h[s] && (b[i].h <= h[e])){ 
                                 if((e+1) > r){
                                    ans = max(ans,dp[x][l][r] + b[i].a);
-cout << "l ans " <<  ans << endl;
+//cout << "l ans " <<  ans << endl;
                                 } else {
                                 dp[y][e+1][r] = max(dp[y][e+1][r],
                                                 max(dp[x][e+1][r],dp[x][l][r] + b[i].a)); 
-cout << "l dp[y][e+1][r] " <<  dp[y][e+1][r] << endl;
+//cout << "l dp[y][e+1][r] " <<  dp[y][e+1][r] << endl;
 }
                             break;
                         }
@@ -62,12 +62,12 @@ cout << "l dp[y][e+1][r] " <<  dp[y][e+1][r] << endl;
                         if(b[i].h <= h[e] && b[i].h <= h[s]){
                                 if((s-1) < l){
                                     ans = max(dp[x][l][r] + b[i].a,ans);
-cout << "r ans " <<  ans << endl;
+//cout << "r ans " <<  ans << endl;
                                     break;
                                 }
                                 dp[y][l][s-1] = max(dp[y][l][s-1],
                                                 max(dp[x][l][s-1],dp[x][l][r] + b[i].a)); 
-cout << "r dp[y][l][s-1] " <<  dp[y][l][s-1] << endl;
+//cout << "r dp[y][l][s-1] " <<  dp[y][l][s-1] << endl;
                             break;
                         }
                     }

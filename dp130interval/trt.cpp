@@ -19,12 +19,22 @@ using namespace std;
 
 int N;
 int trt[2001];
+int dp[2][2005];
 
-int dfs(int i, int j, int a){
-    if(i == j) return trt[i] * a;
-    int ans = dfs(i+1,j,a+1) + trt[i] * a;
-    ans = max(ans,dfs(i,j-1,a+1) + trt[j] * a);
-    return ans;
+int dfs(){
+    int x = 0, y = 1;
+    for(int i = 0; i < N; i++){
+        dp[x][i] = trt[i] * N;
+    }
+    for(int a = N-1; a > 0; a--){
+        for(int i = 0, j = N-a; j < N; i++,j++){
+            int l = N-a;
+            dp[y][i] = max(dp[x][i+1]+a*trt[i],
+                              dp[x][i] +a*trt[i+l]);
+        }   
+        swap(x,y);
+    }
+    return dp[x][0]; 
 }
 
 int main(){
@@ -32,6 +42,6 @@ int main(){
     for(int i = 0; i < N; i++){
         in >>trt[i];
     }
-    int ans = dfs(0,N-1,1);
-    cout << ans << endl;
+    int ans = dfs();
+    out << ans << endl;
 }

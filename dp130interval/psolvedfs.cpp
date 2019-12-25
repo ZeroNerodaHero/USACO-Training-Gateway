@@ -25,7 +25,7 @@ int M, P,ans = INT_MAX;
 prob q[301];
 
 void dfs(int AP,int cp,int m){
-    cout << AP << ' ' << cp << ' ' << m << endl;
+    //cout << AP << ' ' << cp << ' ' << m << endl;
     if(cp >= P){
         ans = min(ans,m);
         return;
@@ -52,10 +52,10 @@ void dfs(int AP,int cp,int m){
 
 int main(){
     in >> M >> P;
-    cout << "M " <<M << "\tP " << P << endl;
+//    cout << "M " <<M << "\tP " << P << endl;
     for(int i = 0; i < P; i++){
         in >> q[i].bp >> q[i].ap;
     }
     dfs(0,0,2);
-    cout << ans << endl;
+    out << ans << endl;
 }
