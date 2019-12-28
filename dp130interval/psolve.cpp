@@ -26,7 +26,7 @@ prob q[301];
 int dp[302][1005];
 
 int dfs(int AP,int cp){
-    cout << AP << ' ' << cp << ' ' << endl;
+//    cout << AP << ' ' << cp << ' ' << endl;
     if(AP > M){
         return INF;
     }
@@ -34,14 +34,13 @@ int dfs(int AP,int cp){
         return 1;
     }
     if(dp[cp][AP] < INF) return dp[cp][AP];
-    
+
     int ret = INF;
-    int l = M-AP;
-    if(l == 0){
-        ret = min(ret, dfs(0,cp)+1);
-        dp[cp][AP] = ret;
-        return ret;
+    if(AP > 0){
+        ret = dfs(0,cp)+1);
     }
+    
+    int l = M-AP;
     int lp = 0;
     int cpt = cp;
 
