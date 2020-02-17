@@ -1,1 +1,1 @@
-# training
+# USACO Training Page
